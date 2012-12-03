@@ -9,7 +9,7 @@ import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
-public class NetworkConnection {
+public class NetworkConnection implements INetwork{
 	private Socket socket;
 	private XMLOutputFactory factory;
 	private XMLStreamWriter writer;
