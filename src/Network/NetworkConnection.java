@@ -3,27 +3,36 @@ package Network;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.Dictionary;
 import java.util.Enumeration;
-import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.Queue;
 
-import javax.xml.crypto.dsig.keyinfo.KeyValue;
+import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamReader;
 import javax.xml.stream.XMLStreamWriter;
 
 import Logic.LogicNetworkMessageType;
 
-public class NetworkConnection implements INetwork, Runnable {
+public class NetworkConnection implements INetwork {
 	private Socket socket;
-	private XMLOutputFactory factory;
+	private XMLOutputFactory wfactory;
+	private XMLInputFactory rfactory;
 	private XMLStreamWriter writer;
+	private XMLStreamReader reader;
+
+	private Queue<Stanza> stanzaQueue;
 
 	private Thread readThread;
 	private Thread writeThread;
+	private boolean streamInitialized = false;
 
 	public NetworkConnection() {
-		factory = XMLOutputFactory.newInstance();
+		wfactory = XMLOutputFactory.newInstance();
+		rfactory = XMLInputFactory.newInstance();
+		stanzaQueue = new LinkedList<>();
+		//Create Read-Thread
 		readThread = new Thread(new Runnable() {
 			@Override
 			public void run() {
@@ -32,6 +41,7 @@ public class NetworkConnection implements INetwork, Runnable {
 		}, "Network-Read-Thread");
 		readThread.setDaemon(true);
 		readThread.start();
+		//Create Write-Thread
 		writeThread = new Thread(new Runnable() {
 			@Override
 			public void run() {
@@ -42,13 +52,30 @@ public class NetworkConnection implements INetwork, Runnable {
 		writeThread.start();
 	}
 
+	@Override
+	protected void finalize() throws Throwable {
+		CloseStream();
+		socket.close();
+	}
+
 	protected void read() {
 		while (true) {
-			if (socket == null || socket.isClosed()) {
+			if (reader == null) {
 				try {
-					Thread.sleep(100);
+					Thread.sleep(1000);
 				} catch (InterruptedException e) {
-					// TODO: handle exception
+				}
+			} else {
+				try {
+					if (!streamInitialized) {
+						if (reader.hasNext()) {
+							reader.next();
+							System.out.println(reader.getLocalName());
+						}
+					} else {
+
+					}
+				} catch (XMLStreamException e) {
 				}
 			}
 		}
@@ -56,10 +83,21 @@ public class NetworkConnection implements INetwork, Runnable {
 
 	protected void write() {
 		while (true) {
-			try {
-				Thread.sleep(100);
-			} catch (InterruptedException e) {
-				// TODO: handle exception
+			if (!streamInitialized) {
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+				}
+			} else {
+				if (stanzaQueue.isEmpty()) {
+					try {
+						Thread.sleep(75);
+					} catch (InterruptedException e) {
+					}
+				} else {
+					// TODO!!
+					WriteStanza(stanzaQueue.poll());
+				}
 			}
 		}
 	}
@@ -99,7 +137,8 @@ public class NetworkConnection implements INetwork, Runnable {
 			}
 			if (s.body != null)
 				WriteStanza(s.body);
-			writer.writeComment("");
+			writer.writeEndElement();
+			writer.flush();
 		} catch (XMLStreamException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -111,15 +150,37 @@ public class NetworkConnection implements INetwork, Runnable {
 			return;
 		}
 		try {
-			writer = factory.createXMLStreamWriter(socket.getOutputStream(),
+			writer = wfactory.createXMLStreamWriter(socket.getOutputStream(),
 					"UTF8");
-			WriteStreamHeader("Anon", "localhost");
+			WriteStreamHeader(jid, host);
+			reader = rfactory.createXMLStreamReader(socket.getInputStream(),
+					"UTF-8");
 		} catch (XMLStreamException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			NetworkError();
+		}
+	}
+
+	private void CloseStream() {
+		try {
+			streamInitialized = false;
+			stanzaQueue.clear();
+			try { Thread.sleep(100); }
+			catch (InterruptedException e)
+			{ }
+			writer.writeEndDocument();
+			writer = null;
+		} catch (XMLStreamException e) {
+			NetworkError();
+		}
+	}
+
+	private void CloseSocket() {
+		try {
+			socket.close();
+		} catch (IOException e) {
 		}
 	}
 
@@ -133,6 +194,7 @@ public class NetworkConnection implements INetwork, Runnable {
 				}
 				socket.close();
 			} catch (IOException e) {
+				NetworkError();
 			}
 		socket = new Socket(host, port);
 	}
@@ -146,6 +208,7 @@ public class NetworkConnection implements INetwork, Runnable {
 				}
 				socket.close();
 			} catch (IOException e) {
+				NetworkError();
 			}
 		socket = null;
 	}
@@ -158,13 +221,8 @@ public class NetworkConnection implements INetwork, Runnable {
 		}
 	}
 
-	public static void main(String[] args) {
-		new NetworkConnection();
-		try {
-			Thread.sleep(10000);
-		} catch (InterruptedException e) {
-			// TODO: handle exception
-		}
+	private void NetworkError() {
+
 	}
 
 	@Override
@@ -173,9 +231,19 @@ public class NetworkConnection implements INetwork, Runnable {
 		// TODO Auto-generated method stub
 	}
 
-	@Override
-	public void run() {
-		// TODO Auto-generated method stub
-
+	public static void main(String[] args) {
+		NetworkConnection n = new NetworkConnection();
+		try {
+			n.Connect("127.0.0.1", 61337);
+			n.Initialize("Anon", "localhost");
+			Stanza s = new Stanza("message");
+			s.attributes.put("to", "me");
+			n.stanzaQueue.add(s);
+			System.in.read();
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }
