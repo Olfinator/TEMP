@@ -1,5 +1,7 @@
 package Network;
 
-public interface INetwork {
+import Logic.LogicNetworkMessageType;
 
+public interface INetwork {
+	public void ReceiveMessage(LogicNetworkMessageType messageType, Object[] args);
 }

@@ -1,13 +1,14 @@
 package Network;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
+
+import Logic.LogicNetworkMessageType;
 
 public class NetworkConnection implements INetwork{
 	private Socket socket;
@@ -28,7 +29,7 @@ public class NetworkConnection implements INetwork{
 		}
 	}
 	
-	private void OpenStream(String jid, String server) {
+	private void WriteStreamHeader(String jid, String server) {
 		try {
 			writer.writeStartDocument("1.0");
 			writer.writeStartElement("stream:stream");
@@ -52,7 +53,7 @@ public class NetworkConnection implements INetwork{
 		}
 		try {
 			writer = factory.createXMLStreamWriter(socket.getOutputStream(), "UTF8");
-			OpenStream("Anon", "localhost");
+			WriteStreamHeader("Anon", "localhost");
 		} catch (XMLStreamException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -96,16 +97,13 @@ public class NetworkConnection implements INetwork{
 		}	
 	}
 	
-	private void Send(String s) throws IOException {
-		try {
-			Send(s.getBytes("UTF8"));
-		} catch (UnsupportedEncodingException e) {
-			System.out.print("WTF?");
-			e.printStackTrace();
-		}
-	}
-	
 	public static void main(String[] args) {
 		new NetworkConnection();
+	}
+
+	@Override
+	public void ReceiveMessage(LogicNetworkMessageType messageType,
+			Object[] args) {
+		// TODO Auto-generated method stub
 	}
 }
