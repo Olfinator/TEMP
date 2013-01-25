@@ -228,7 +228,15 @@ public class NetworkConnection extends INetwork{
 	@Override
 	public void ReceiveMessage(LogicNetworkMessageType messageType,
 			Object[] args) {
-		// TODO Auto-generated method stub
+		switch (messageType) {
+			case Connect: {
+				if (false /*connected*/)
+					; //Error
+				
+			}	break;
+			default:
+				break;
+		}
 	}
 
 	public static void main(String[] args) {
