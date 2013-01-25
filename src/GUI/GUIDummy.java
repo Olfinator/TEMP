@@ -8,7 +8,7 @@ import Logic.LogicGUIMessageType;
  * modified directly!
  */
 
-public class GUIDummy implements IGUI{
+public class GUIDummy extends IGUI{
 	
 	public GUIDummy(boolean debug) {
 		
