@@ -8,11 +8,11 @@ import Network.NetworkMessageType;
  * Elements, this Class may be copied and modified. This class may not be 
  * modified directly!
  */
-public class DummyLogic implements ILogic{
-	public DummyLogic(boolean debug) {
-		
+public class DummyLogic extends ILogic{
+	public DummyLogic(boolean debug, Thread starterThread) {
+
 	}
-	
+
 	@Override
 	public void ReceiveMessage(GUIMessageType messageType, Object[] args) {
 		
@@ -20,6 +20,6 @@ public class DummyLogic implements ILogic{
 
 	@Override
 	public void ReceiveMessage(NetworkMessageType messageType, Object[] args) {
-		
+
 	}
 }
