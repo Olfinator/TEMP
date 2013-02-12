@@ -15,7 +15,7 @@ public final class GUIDummy extends IGUI{
 	}
 	
 	@Override
-	public void ReceiceMessage(LogicGUIMessageType message, Object[] args) {
+	public void ReceiveMessage(LogicGUIMessageType message, Object[] args) {
 		
 	}
 

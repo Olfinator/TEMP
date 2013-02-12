@@ -2,12 +2,13 @@ package Network;
 
 import Logic.ILogic;
 import Logic.LogicNetworkMessageType;
+import Logic.Layer;
 
-public abstract class INetwork {
+public abstract class INetwork extends Layer {
 	private ILogic logic;
 
 	private final void SendMessage(NetworkMessageType messageType, Object[] args) {
-		logic.ReceiveMessage(messageType, args);
+		run (new networkRunnable(messageType, args));
 	}
 
 	public final void SetLogic(ILogic l) {
@@ -19,4 +20,17 @@ public abstract class INetwork {
 	public abstract void ReceiveMessage(LogicNetworkMessageType messageType, Object[] args);
 
 	public abstract void OnClose();
+	
+	class networkRunnable implements Runnable {
+		NetworkMessageType messageType;
+		Object[] args;
+		public networkRunnable (NetworkMessageType m, Object[] o) {
+			messageType = m; args = o;
+		}
+
+		@Override
+		public void run() {
+			logic.ReceiveMessage(messageType, args);
+		}
+	}
 }

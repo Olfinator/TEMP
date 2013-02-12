@@ -5,17 +5,17 @@ import GUI.IGUI;
 import Network.INetwork;
 import Network.NetworkMessageType;
 
-public abstract class ILogic {
+public abstract class ILogic extends Layer{
 	private IGUI gui;
 	private INetwork network;
 	private Thread mainThread;
 
 	private void SendMessage(LogicGUIMessageType messageType, Object[] args) {
-		gui.ReceiceMessage(messageType, args);
+		run(new gLogicRunnable(messageType, args));
 	}
 
 	private void SendMessage(LogicNetworkMessageType messageType, Object[] args) {
-		network.ReceiveMessage(messageType, args);
+		run(new nLogicRunnable(messageType, args));
 	}
 
 	public final void SetGui(IGUI g) {
@@ -47,4 +47,30 @@ public abstract class ILogic {
 	}
 
 	public abstract void OnClose();
+	
+	class nLogicRunnable implements Runnable {
+		LogicNetworkMessageType messageType;
+		Object[] args;
+		public nLogicRunnable (LogicNetworkMessageType m, Object[] o) {
+			messageType = m; args = o;
+		}
+
+		@Override
+		public void run() {
+			network.ReceiveMessage(messageType, args);
+		}
+	}
+	
+	class gLogicRunnable implements Runnable {
+		LogicGUIMessageType messageType;
+		Object[] args;
+		public gLogicRunnable (LogicGUIMessageType m, Object[] o) {
+			messageType = m; args = o;
+		}
+
+		@Override
+		public void run() {
+			gui.ReceiveMessage(messageType, args);
+		}
+	}
 }
