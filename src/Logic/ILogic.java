@@ -10,11 +10,11 @@ public abstract class ILogic extends Layer{
 	private INetwork network;
 	private Thread mainThread;
 
-	private void SendMessage(LogicGUIMessageType messageType, Object[] args) {
+	protected void SendMessage(LogicGUIMessageType messageType, Object[] args) {
 		run(new gLogicRunnable(messageType, args));
 	}
 
-	private void SendMessage(LogicNetworkMessageType messageType, Object[] args) {
+	protected void SendMessage(LogicNetworkMessageType messageType, Object[] args) {
 		run(new nLogicRunnable(messageType, args));
 	}
 
