@@ -8,7 +8,7 @@ import Logic.LogicGUIMessageType;
  * modified directly!
  */
 
-public class GUIDummy extends IGUI{
+public final class GUIDummy extends IGUI{
 	
 	public GUIDummy(boolean debug) {
 		
@@ -17,6 +17,11 @@ public class GUIDummy extends IGUI{
 	@Override
 	public void ReceiceMessage(LogicGUIMessageType message, Object[] args) {
 		
+	}
+
+	@Override
+	public void OnClose() {
+
 	}
 
 }

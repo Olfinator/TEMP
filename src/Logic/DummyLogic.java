@@ -9,7 +9,7 @@ import Network.NetworkMessageType;
  * modified directly!
  */
 public class DummyLogic extends ILogic{
-	public DummyLogic(boolean debug, Thread starterThread) {
+	public DummyLogic(boolean debug) {
 
 	}
 
@@ -20,6 +20,11 @@ public class DummyLogic extends ILogic{
 
 	@Override
 	public void ReceiveMessage(NetworkMessageType messageType, Object[] args) {
+
+	}
+
+	@Override
+	public void OnClose() {
 
 	}
 }
