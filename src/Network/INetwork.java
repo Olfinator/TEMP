@@ -6,7 +6,7 @@ import Logic.LogicNetworkMessageType;
 public abstract class INetwork {
 	private ILogic logic;
 
-	private final void SendMessage(NetworkMessageType messageType, Object[] args) {
+	protected final void SendMessage(NetworkMessageType messageType, Object[] args) {
 		logic.ReceiveMessage(messageType, args);
 	}
 
