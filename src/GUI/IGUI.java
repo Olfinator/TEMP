@@ -7,7 +7,7 @@ import Logic.LogicGUIMessageType;
 public abstract class IGUI extends Layer {
 	private ILogic logic;
 
-	private final void SendMessage(GUIMessageType messageType, Object[] args) {
+	protected final void SendMessage(GUIMessageType messageType, Object[] args) {
 		run(new guiRunnable(messageType, args));
 	}
 

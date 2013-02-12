@@ -7,7 +7,7 @@ import Logic.Layer;
 public abstract class INetwork extends Layer {
 	private ILogic logic;
 
-	private final void SendMessage(NetworkMessageType messageType, Object[] args) {
+	protected final void SendMessage(NetworkMessageType messageType, Object[] args) {
 		run (new networkRunnable(messageType, args));
 	}
 
