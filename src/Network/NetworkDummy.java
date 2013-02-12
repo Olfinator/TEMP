@@ -6,7 +6,7 @@ import Logic.LogicNetworkMessageType;
  * Elements, this Class may be copied and modified. This class may not be 
  * modified directly!
  */
-public class NetworkDummy extends INetwork{
+public final class NetworkDummy extends INetwork{
 
 	public NetworkDummy(boolean debug) {
 	}
@@ -14,5 +14,10 @@ public class NetworkDummy extends INetwork{
 	@Override
 	public void ReceiveMessage(LogicNetworkMessageType messageType,
 			Object[] args) {
+	}
+
+	@Override
+	public void OnClose() {
+
 	}
 }
