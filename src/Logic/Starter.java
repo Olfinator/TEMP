@@ -3,6 +3,7 @@ package Logic;
 import GUI.GUIDummy;
 import GUI.IGUI;
 import Network.INetwork;
+import Network.NetworkConnection;
 import Network.NetworkDummy;
 
 public class Starter {
@@ -15,11 +16,11 @@ public class Starter {
 		debug = true;
 		Layer.setLogging(debug);
 		//Create Logic
-		logic = new DummyLogic();
+		logic = new NetworkTester();
 		//Create GUI
 		gui = new GUIDummy();
 		//Create Network
-		network = new NetworkDummy();
+		network = new NetworkConnection();
 
 		logic.SetThread(Thread.currentThread());
 		logic.SetGui(gui);
