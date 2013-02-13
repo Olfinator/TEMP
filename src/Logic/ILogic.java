@@ -7,12 +7,22 @@ import MessageLibrary.GUIMessageType;
 import MessageLibrary.LogicGUIMessageType;
 import MessageLibrary.LogicNetworkMessageType;
 import MessageLibrary.NetworkMessageType;
+import MessageLibrary.gLogicMessageTester;
+import MessageLibrary.nLogicMessageTester;
 import Network.INetwork;
 
 public abstract class ILogic extends Layer{
 	private IGUI gui;
 	private INetwork network;
 	private Thread mainThread;
+
+	private static final nLogicMessageTester nTester;
+	private static final gLogicMessageTester gTester;
+
+	static {
+		nTester = new nLogicMessageTester();
+		gTester = new gLogicMessageTester();
+	}
 
 	protected final Future<?> SendMessage(LogicGUIMessageType messageType, Object[] args) {
 		return run(new gLogicRunnable(messageType, args));
@@ -61,7 +71,20 @@ public abstract class ILogic extends Layer{
 
 		@Override
 		public void run() {
-			network.ReceiveMessage(messageType, args);
+			if (nTester.Test(messageType, args))
+				network.ReceiveMessage(messageType, args);
+			else {
+				StringBuilder s = new StringBuilder("Message Argument Failure: ");
+				s.append(messageType.name());
+				for (int i = 0; i < args.length; i++) {
+					s.append(", ");
+					if (args[i] == null)
+						s.append("()");
+					else
+						s.append(args[i].toString());
+				}
+				logger.severe(s.toString());
+			}
 		}
 	}
 	
@@ -74,7 +97,20 @@ public abstract class ILogic extends Layer{
 
 		@Override
 		public void run() {
-			gui.ReceiveMessage(messageType, args);
+			if (gTester.Test(messageType, args))
+				gui.ReceiveMessage(messageType, args);
+			else {
+				StringBuilder s = new StringBuilder("Message Argument Failure: ");
+				s.append(messageType.name());
+				for (int i = 0; i < args.length; i++) {
+					s.append(", ");
+					if (args[i] == null)
+						s.append("()");
+					else
+						s.append(args[i].toString());
+				}
+				logger.severe(s.toString());
+			}
 		}
 	}
 }
