@@ -8,7 +8,8 @@ import Logic.LogicNetworkMessageType;
  */
 public final class NetworkDummy extends INetwork{
 
-	public NetworkDummy(boolean debug) {
+	public NetworkDummy() {
+		Log("NetworkDummy initialized");
 	}
 
 	@Override

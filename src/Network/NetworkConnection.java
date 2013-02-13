@@ -106,4 +106,10 @@ public class NetworkConnection extends INetwork{
 			Object[] args) {
 		// TODO Auto-generated method stub
 	}
+
+	@Override
+	public void OnClose() {
+		// TODO Auto-generated method stub
+		
+	}
 }

@@ -9,8 +9,8 @@ import Network.NetworkMessageType;
  * modified directly!
  */
 public class DummyLogic extends ILogic{
-	public DummyLogic(boolean debug) {
-
+	public DummyLogic() {
+		Log("LogicDummy initialized");
 	}
 
 	@Override

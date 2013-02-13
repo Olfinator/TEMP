@@ -13,12 +13,13 @@ public class Starter {
 	
 	public static void main(String[] args) {
 		debug = true;
+		Layer.setLogging(debug);
 		//Create Logic
-		logic = new DummyLogic(debug);
+		logic = new DummyLogic();
 		//Create GUI
-		gui = new GUIDummy(debug);
+		gui = new GUIDummy();
 		//Create Network
-		network = new NetworkDummy(debug);
+		network = new NetworkDummy();
 
 		logic.SetThread(Thread.currentThread());
 		logic.SetGui(gui);
