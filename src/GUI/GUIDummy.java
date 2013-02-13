@@ -1,6 +1,8 @@
 package GUI;
 
-import Logic.LogicGUIMessageType;
+import java.util.logging.Level;
+
+import MessageLibrary.LogicGUIMessageType;
 
 /*
  * Dummy for GUI-Element. For Test-Purposes of Interaction with the other
@@ -11,7 +13,7 @@ import Logic.LogicGUIMessageType;
 public final class GUIDummy extends IGUI{
 	
 	public GUIDummy() {
-		Log("GUIDummy initialized");
+		logger.log(Level.FINE, "GUIDummy initialized");
 	}
 	
 	@Override

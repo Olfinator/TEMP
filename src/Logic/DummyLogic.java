@@ -1,7 +1,7 @@
 package Logic;
 
-import GUI.GUIMessageType;
-import Network.NetworkMessageType;
+import MessageLibrary.GUIMessageType;
+import MessageLibrary.NetworkMessageType;
 
 /*
  * Dummy for Logic-Element. For Test-Purposes of Interaction with the other
@@ -10,7 +10,7 @@ import Network.NetworkMessageType;
  */
 public class DummyLogic extends ILogic{
 	public DummyLogic() {
-		Log("LogicDummy initialized");
+		logger.fine("LogicDummy initialized");
 	}
 
 	@Override

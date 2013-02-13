@@ -1,6 +1,6 @@
 package Network;
 
-import Logic.LogicNetworkMessageType;
+import MessageLibrary.LogicNetworkMessageType;
 /*
  * Dummy for Network-Element. For Test-Purposes of Interaction with the other
  * Elements, this Class may be copied and modified. This class may not be 
@@ -9,7 +9,7 @@ import Logic.LogicNetworkMessageType;
 public final class NetworkDummy extends INetwork{
 
 	public NetworkDummy() {
-		Log("NetworkDummy initialized");
+		logger.fine("NetworkDummy initialized");
 	}
 
 	@Override

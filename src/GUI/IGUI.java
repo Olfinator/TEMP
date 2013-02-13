@@ -1,14 +1,17 @@
 package GUI;
 
+import java.util.concurrent.Future;
+
 import Logic.ILogic;
 import Logic.Layer;
-import Logic.LogicGUIMessageType;
+import MessageLibrary.GUIMessageType;
+import MessageLibrary.LogicGUIMessageType;
 
 public abstract class IGUI extends Layer {
 	private ILogic logic;
 
-	protected final void SendMessage(GUIMessageType messageType, Object[] args) {
-		run(new guiRunnable(messageType, args));
+	protected final Future<?> SendMessage(GUIMessageType messageType, Object[] args) {
+		return run(new guiRunnable(messageType, args));
 	}
 
 	public final void SetLogic(ILogic l) {
@@ -21,7 +24,7 @@ public abstract class IGUI extends Layer {
 
 	public abstract void OnClose();
 	
-	class guiRunnable implements Runnable {
+	final class guiRunnable implements Runnable {
 		GUIMessageType messageType;
 		Object[] args;
 		public guiRunnable (GUIMessageType m, Object[] o) {

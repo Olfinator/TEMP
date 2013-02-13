@@ -1,21 +1,25 @@
 package Logic;
 
-import GUI.GUIMessageType;
+import java.util.concurrent.Future;
+
 import GUI.IGUI;
+import MessageLibrary.GUIMessageType;
+import MessageLibrary.LogicGUIMessageType;
+import MessageLibrary.LogicNetworkMessageType;
+import MessageLibrary.NetworkMessageType;
 import Network.INetwork;
-import Network.NetworkMessageType;
 
 public abstract class ILogic extends Layer{
 	private IGUI gui;
 	private INetwork network;
 	private Thread mainThread;
 
-	protected void SendMessage(LogicGUIMessageType messageType, Object[] args) {
-		run(new gLogicRunnable(messageType, args));
+	protected final Future<?> SendMessage(LogicGUIMessageType messageType, Object[] args) {
+		return run(new gLogicRunnable(messageType, args));
 	}
 
-	protected void SendMessage(LogicNetworkMessageType messageType, Object[] args) {
-		run(new nLogicRunnable(messageType, args));
+	protected final Future<?> SendMessage(LogicNetworkMessageType messageType, Object[] args) {
+		return run(new nLogicRunnable(messageType, args));
 	}
 
 	public final void SetGui(IGUI g) {
@@ -48,7 +52,7 @@ public abstract class ILogic extends Layer{
 
 	public abstract void OnClose();
 	
-	class nLogicRunnable implements Runnable {
+	final class nLogicRunnable implements Runnable {
 		LogicNetworkMessageType messageType;
 		Object[] args;
 		public nLogicRunnable (LogicNetworkMessageType m, Object[] o) {
