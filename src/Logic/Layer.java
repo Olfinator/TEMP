@@ -8,16 +8,17 @@ import java.util.logging.Logger;
 
 public abstract class Layer {
 	private static final ExecutorService es;
-	private static final Logger logger;
+	protected static final Logger logger;
 	private static boolean logging;
 
 	static {
 		es = Executors.newCachedThreadPool();
 		logger = Logger.getLogger("TEMP");
-		logger.setLevel(Level.ALL);
+		logger.setLevel(Level.OFF);
 	}
 	
 	public static void setLogging(boolean active) {
+		logger.setLevel(active ? Level.ALL : Level.OFF);
 		logging = active;
 	}
 
@@ -27,10 +28,5 @@ public abstract class Layer {
 
 	protected final Future<?> run(Runnable r) {
 		return es.submit(r);
-	}
-
-	protected final void Log(String s) {
-		if (logging)
-			logger.info(s);
 	}
 }

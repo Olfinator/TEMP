@@ -1,4 +1,4 @@
-package GUI;
+package MessageLibrary;
 
 public enum GUIMessageType {
 

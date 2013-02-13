@@ -1,4 +1,4 @@
-package Logic;
+package MessageLibrary;
 
 public enum LogicNetworkMessageType {
 	Connect

@@ -1,4 +1,4 @@
-package Network;
+package MessageLibrary;
 
 public enum NetworkMessageType {
 	ConnectResult

@@ -10,7 +10,7 @@ import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
-import Logic.LogicNetworkMessageType;
+import MessageLibrary.LogicNetworkMessageType;
 
 public class NetworkConnection extends INetwork {
 	private Socket socket;
