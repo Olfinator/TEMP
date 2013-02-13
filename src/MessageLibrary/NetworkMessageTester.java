@@ -1,10 +1,15 @@
 package MessageLibrary;
 
 import java.util.Dictionary;
+import java.util.Hashtable;
 
 public final class NetworkMessageTester implements MessageTester<NetworkMessageType> {
 
-	private Dictionary<NetworkMessageType, Class<?>[]> paramDict;
+	private static final Dictionary<NetworkMessageType, Class<?>[]> paramDict;
+
+	static {
+		paramDict = new Hashtable<>();
+	}
 
 	@Override
 	public boolean Test(NetworkMessageType type, Object[] args) {
@@ -26,7 +31,6 @@ public final class NetworkMessageTester implements MessageTester<NetworkMessageT
 
 	@Override
 	public String[] ConvertToString(NetworkMessageType type, Object[] args) {
-		
+		return new String[] {};
 	}
-
 }
