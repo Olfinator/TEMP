@@ -1,7 +1,9 @@
 package Logic;
 
-import GUI.GUIMessageType;
-import Network.NetworkMessageType;
+import MessageLibrary.GUIMessageType;
+import MessageLibrary.LogicNetworkMessageType;
+import MessageLibrary.NetworkMessageType;
+
 
 public class NetworkTester extends ILogic implements Runnable {
 
@@ -9,17 +11,17 @@ public class NetworkTester extends ILogic implements Runnable {
 		Thread t = new Thread(this);
 		t.setDaemon(true);
 		t.start();
-		Log("NetworkTester initialized");
+		logger.fine("NetworkTester initialized");
 	}
 	
 	@Override
 	public void ReceiveMessage(GUIMessageType messageType, Object[] args) {
-		Log(messageType.name());
+		logger.info(messageType.name());
 	}
 
 	@Override
 	public void ReceiveMessage(NetworkMessageType messageType, Object[] args) {
-		Log(messageType.name());
+		logger.info(messageType.name());
 	}
 
 	@Override
@@ -38,7 +40,7 @@ public class NetworkTester extends ILogic implements Runnable {
 			Thread.sleep(15000);
 		} catch (InterruptedException e) {
 		}
-		Log("Close");
+		logger.info("Close");
 		Close();
 	}
 }

@@ -11,6 +11,7 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
 import MessageLibrary.LogicNetworkMessageType;
+import MessageLibrary.NetworkMessageType;
 
 public class NetworkConnection extends INetwork {
 	private Socket socket;
@@ -34,15 +35,15 @@ public class NetworkConnection extends INetwork {
 			xmlOut = outFactory.createXMLStreamWriter(cipherOut, "UTF-8");
 			OpenXMLStream();
 		} catch (UnknownHostException e) {
-			Log(e.getMessage());
+			logger.info(e.getMessage());
 			SendMessage(NetworkMessageType.ConnectResult, new Object[] { 0xF1 });
 			return;
 		} catch (IOException e) {
-			Log(e.getMessage());
+			logger.info(e.getMessage());
 			SendMessage(NetworkMessageType.ConnectResult, new Object[] { 0xFF });
 			return;
 		} catch (XMLStreamException e) {
-			Log(e.getMessage());
+			logger.info(e.getMessage());
 			SendMessage(NetworkMessageType.ConnectResult, new Object[] { 0xFF });
 			return;
 		}
@@ -60,21 +61,21 @@ public class NetworkConnection extends INetwork {
 		try {
 			xmlOut.close();
 		} catch (XMLStreamException e) {
-			Log(e.getMessage());
+			logger.throwing("XMLStreamwriter", "close", e);
 		} finally {
 			xmlOut = null;
 		}
 		try {
 			cipherOut.close();
 		} catch (IOException e) {
-			Log(e.getMessage());
+			logger.throwing("CipherOutputStream", "close", e);
 		} finally {
 			cipherOut = null;
 		}
 		try {
 			socket.close();
 		} catch (IOException e) {
-			Log(e.getMessage());
+			logger.throwing("Socket", "close", e);
 		} finally {
 			socket = null;
 		}
