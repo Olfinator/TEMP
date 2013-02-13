@@ -10,8 +10,8 @@ import Logic.LogicGUIMessageType;
 
 public final class GUIDummy extends IGUI{
 	
-	public GUIDummy(boolean debug) {
-		
+	public GUIDummy() {
+		Log("GUIDummy initialized");
 	}
 	
 	@Override

@@ -59,4 +59,10 @@ public class NetworkConnection extends INetwork {
 	public void OnClose() {
 
 	}
+
+	@Override
+	public void OnClose() {
+		// TODO Auto-generated method stub
+		
+	}
 }
