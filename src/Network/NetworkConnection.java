@@ -19,21 +19,26 @@ public class NetworkConnection extends INetwork {
 	private CipherOutputStream cipherOut;
 	private XMLStreamWriter xmlOut;
 
+	private ServerInformation server;
+
 	public NetworkConnection() {
+		server = new ServerInformation();
 	}
 
 	@Override
 	protected void finalize() throws Throwable {
-
+		CloseSocket();
 	}
 
 	private void Connect(String host, int port) {
+		server.name = host;
+		server.port = port;
 		try {
 			socket = new Socket(host, port);
 			cipherOut = new CipherOutputStream(socket.getOutputStream(), new NullCipher());
 			XMLOutputFactory outFactory = XMLOutputFactory.newFactory();
 			xmlOut = outFactory.createXMLStreamWriter(cipherOut, "UTF-8");
-			OpenXMLStream();
+			OpenAnonXMLStream();
 		} catch (UnknownHostException e) {
 			logger.info(e.getMessage());
 			SendMessage(NetworkMessageType.ConnectResult, new Object[] { 0xF1 });
@@ -50,9 +55,15 @@ public class NetworkConnection extends INetwork {
 		SendMessage(NetworkMessageType.ConnectResult, new Object[] { 0x00 });
 	}
 
-	private void OpenXMLStream() throws XMLStreamException {
+	private void OpenAnonXMLStream() throws XMLStreamException {
 		xmlOut.writeStartDocument("UTF-8", "1.0");
-		xmlOut.writeStartElement("stream", "stream", "jabber-client");
+		xmlOut.writeStartElement("stream", "stream", "http://etherx.jabber.org/streams");
+		xmlOut.writeAttribute("from", "Client");
+		xmlOut.writeAttribute("to", server.name);
+		xmlOut.writeAttribute("version", "0.1");
+		xmlOut.writeAttribute("xml", "xml", "lang", "en");
+		xmlOut.writeDefaultNamespace("jabber:client");
+		xmlOut.writeNamespace("stream", "http://etherx.jabber.org/streams");
 		xmlOut.writeComment("");
 		xmlOut.flush();
 	}

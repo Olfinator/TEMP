@@ -37,7 +37,7 @@ public class NetworkTester extends ILogic implements Runnable {
 		}
 		SendMessage(LogicNetworkMessageType.Connect, new Object[] { "me-pc", 61337 });
 		try {
-			Thread.sleep(15000);
+			Thread.sleep(45000);
 		} catch (InterruptedException e) {
 		}
 		logger.info("Close");
