@@ -6,8 +6,14 @@ import MessageLibrary.NetworkMessageType;
 
 
 public class NetworkTester extends ILogic implements Runnable {
+	String host;
 
 	public NetworkTester() {
+		this("me-pc");
+	}
+
+	public NetworkTester(String h) {
+		host = h;
 		Thread t = new Thread(this);
 		t.setDaemon(true);
 		t.start();
@@ -35,7 +41,7 @@ public class NetworkTester extends ILogic implements Runnable {
 			Thread.sleep(3000);
 		} catch (InterruptedException e) {
 		}
-		SendMessage(LogicNetworkMessageType.Connect, new Object[] { "me-pc", 61337 });
+		SendMessage(LogicNetworkMessageType.Connect, new Object[] { host, 61337 });
 		try {
 			Thread.sleep(45000);
 		} catch (InterruptedException e) {

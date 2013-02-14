@@ -15,14 +15,36 @@ import MessageLibrary.NetworkMessageType;
 
 public class NetworkConnection extends INetwork {
 	private Socket socket;
-	
+
 	private CipherOutputStream cipherOut;
 	private XMLStreamWriter xmlOut;
 
 	private ServerInformation server;
 
+	private Thread readThread;
+	private Thread writeThread;
+
 	public NetworkConnection() {
 		server = new ServerInformation();
+		readThread = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				Read();
+			}
+		}, "NetworkConnection Read-Thread");
+		readThread.setDaemon(true);
+		writeThread = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				Write();
+			}
+		}, "NetworkConnection Write-Thread");
+	}
+
+	protected void Write() {
+	}
+
+	protected void Read() {
 	}
 
 	@Override
