@@ -16,7 +16,7 @@ public class Starter {
 		debug = true;
 		Layer.setLogging(debug);
 		//Create Logic
-		logic = new NetworkTester();
+		logic = new NetworkTester((String)args[0]);
 		//Create GUI
 		gui = new GUIDummy();
 		//Create Network
