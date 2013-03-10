@@ -1,6 +1,7 @@
 package Logic;
 
 import MessageLibrary.GUIMessageType;
+import MessageLibrary.LogicGUIMessageType;
 import MessageLibrary.LogicNetworkMessageType;
 import MessageLibrary.NetworkMessageType;
 
@@ -18,6 +19,15 @@ public class OlfLogic extends ILogic {
 		case sendnewbuddy: 
 			SendMessage(LogicNetworkMessageType.sendnewbuddy, args);
 			b.newBuddy((String)args[1],(String)args[2]); // args1 = Name args2 = jid 
+			SendMessage(LogicGUIMessageType.buddylist, new Object[]{b.getBuddylist()});
+			break;
+		case deletebuddy:
+			SendMessage(LogicNetworkMessageType.deletebuddy, args);
+			b.deleteBuddy((Buddy)args[1]); // args1 = Buddy
+			SendMessage(LogicGUIMessageType.buddylist, new Object[]{b.getBuddylist()});
+			break;
+		case close:
+			Close();
 			break;
 		default:
 			break;
@@ -39,7 +49,7 @@ public class OlfLogic extends ILogic {
 
 	@Override
 	public void GuiInit() {
-
+		
 	}
 
 	@Override

@@ -4,7 +4,9 @@ import java.util.Dictionary;
 
 public enum GUIMessageType {
 	sendmessage,
-	sendnewbuddy
+	sendnewbuddy,
+	deletebuddy,
+	close
 	;
 	static void paramDefs(Dictionary<GUIMessageType, Class<?>[]> dict) {
 	}

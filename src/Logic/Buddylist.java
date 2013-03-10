@@ -16,8 +16,8 @@ public class Buddylist {
 	
 	
 	
-	public void deleteBuddy(String jid){
-		ListofBuddys.remove(jid);
+	public void deleteBuddy(Buddy buddy){
+		ListofBuddys.remove(buddy.getjid());
 	}
 	
 	public Hashtable<String, Buddy> getBuddylist(){

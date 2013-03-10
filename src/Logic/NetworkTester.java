@@ -50,4 +50,16 @@ public class NetworkTester extends ILogic implements Runnable {
 		logger.info("Close");
 		Close();
 	}
+
+	@Override
+	public void GuiInit() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void NetworkInit() {
+		// TODO Auto-generated method stub
+		
+	}
 }
