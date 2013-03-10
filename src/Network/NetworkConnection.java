@@ -8,9 +8,9 @@ import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
-import Logic.LogicNetworkMessageType;
+import MessageLibrary.LogicNetworkMessageType;
 
-public class NetworkConnection implements INetwork{
+public class NetworkConnection extends INetwork{
 	private Socket socket;
 	private XMLOutputFactory factory;
 	private XMLStreamWriter writer;
@@ -105,5 +105,11 @@ public class NetworkConnection implements INetwork{
 	public void ReceiveMessage(LogicNetworkMessageType messageType,
 			Object[] args) {
 		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void OnClose() {
+		// TODO Auto-generated method stub
+		
 	}
 }
