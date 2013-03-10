@@ -3,6 +3,9 @@ package Network;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.Enumeration;
+import java.util.LinkedList;
+import java.util.Queue;
 
 import javax.crypto.CipherInputStream;
 import javax.crypto.CipherOutputStream;
@@ -29,8 +32,16 @@ public class NetworkConnection extends INetwork {
 
 	private Thread readThread;
 	private Thread writeThread;
+	
+	private boolean pending;
+	private boolean running;
+	private Queue<Stanza> outputList;
+	//private List<Stanza> inputList;
 
 	public NetworkConnection() {
+		outputList = new LinkedList<>();
+		pending = false;
+		
 		server = new ServerInformation();
 		readThread = new Thread(new Runnable() {
 			@Override
@@ -56,6 +67,46 @@ public class NetworkConnection extends INetwork {
 		} catch(FactoryConfigurationError | XMLStreamException e) {
 			logger.severe(e.getMessage());
 		}
+		while(running) {
+			if (!pending || outputList.isEmpty()) {
+				try {
+					Thread.sleep(100);
+				} catch (InterruptedException e) {
+				}
+			} else {
+				Stanza s = outputList.poll();
+				try {
+					writeStanza(s);
+					xmlOut.writeComment("");
+					xmlOut.flush();
+				} catch (XMLStreamException e) {
+					logger.severe("XMLStreamEception");
+				}
+			}
+		}
+	}
+
+	private void writeStanza(Stanza s) throws XMLStreamException {
+		xmlOut.writeStartElement(s.name);
+		Enumeration<String> keys = s.attributes.keys();
+		while (keys.hasMoreElements()) {
+			String key = keys.nextElement();
+			String value = s.attributes.get(key);
+			xmlOut.writeAttribute(key, value);
+		}
+		keys = s.namespaces.keys();
+		while (keys.hasMoreElements()) {
+			String key = keys.nextElement();
+			String value = s.attributes.get(key);
+			xmlOut.writeNamespace(key, value);
+		}
+		if (s.body != null) {
+			if (s.body.getClass().equals(Stanza.class))
+				writeStanza((Stanza)s.body);
+			else if (s.body.getClass().equals(String.class))
+				xmlOut.writeCharacters((String)s.body);
+		}
+		xmlOut.writeEndElement();
 	}
 
 	protected void Read() {
@@ -67,7 +118,9 @@ public class NetworkConnection extends INetwork {
 		} catch (FactoryConfigurationError | XMLStreamException e) {
 			logger.severe(e.getMessage());
 		}
-		
+		while(running) {
+			
+		}
 	}
 
 	private void CheckHeader() throws XMLStreamException {
@@ -100,6 +153,7 @@ public class NetworkConnection extends INetwork {
 			SendMessage(NetworkMessageType.ConnectResult, new Object[] { 0xFF, e.getMessage() });
 			return;
 		}
+		running = true;
 		readThread.start();
 		writeThread.start();
 	}
@@ -116,7 +170,17 @@ public class NetworkConnection extends INetwork {
 		xmlOut.flush();
 	}
 
+	@SuppressWarnings("deprecation")
 	private void CloseSocket() {
+		running = false;
+		writeThread.interrupt();
+		readThread.interrupt();
+		try {
+			Thread.sleep(250);
+		} catch (InterruptedException e1) {
+		}
+		writeThread.suspend();
+		readThread.suspend();
 		try {
 			xmlOut.close();
 		} catch (XMLStreamException e) {
@@ -154,6 +218,11 @@ public class NetworkConnection extends INetwork {
 			int port = (int) args[1];
 			Connect(host, port);
 		}
+			break;
+		case sendmessage:
+			Stanza s = new Stanza("message");
+			s.body = args[0];
+			outputList.add(s);
 			break;
 		default:
 			break;

@@ -6,7 +6,7 @@ import java.util.Hashtable;
 public class Stanza {
 	public String name;
 	public Dictionary<String, String> attributes;
-	public Stanza body;
+	public Object body;
 	public Dictionary<String, String> namespaces;
 
 	public Stanza(String n) {
