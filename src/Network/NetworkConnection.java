@@ -40,7 +40,7 @@ public class NetworkConnection extends INetwork {
 
 	public NetworkConnection() {
 		outputList = new LinkedList<>();
-		pending = false;
+		pending = true;
 		
 		server = new ServerInformation();
 		readThread = new Thread(new Runnable() {
@@ -221,7 +221,9 @@ public class NetworkConnection extends INetwork {
 			break;
 		case sendmessage:
 			Stanza s = new Stanza("message");
-			s.body = args[0];
+			Stanza b = new Stanza("body");
+			b.body = args[0];
+			s.body = b;
 			outputList.add(s);
 			break;
 		default:
