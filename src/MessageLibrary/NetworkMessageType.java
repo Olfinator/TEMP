@@ -13,6 +13,7 @@ public enum NetworkMessageType {
 	 * 		0xFF	Error
 	 */
 	;
-	static void paramDef(Dictionary<NetworkMessageType, Class<?>[]> dict) {	
+	static void paramDef(Dictionary<NetworkMessageType, Class<?>[]> dict) {
+		dict.put(ConnectResult, new Class<?>[] { Integer.class });
 	}
 }

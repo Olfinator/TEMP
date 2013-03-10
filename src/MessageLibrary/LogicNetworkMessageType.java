@@ -18,5 +18,7 @@ public enum LogicNetworkMessageType {
 	  */
 	;
 	static void paramDefs(Dictionary<LogicNetworkMessageType, Class<?>[]> dict) {
+		dict.put(Connect, new Class<?>[] { String.class, Integer.class });
+		dict.put(sendmessage, new Class<?>[] { String.class });
 	}
 }
