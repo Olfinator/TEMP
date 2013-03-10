@@ -18,7 +18,7 @@ public class Chat {
 	
 	public void writeGespeichertenChat(){
 		try{
-			OutputStream chattext = new FileOutputStream("C:\\Users\\Olaf Matticzk\\Desktop\\test\\chattext.txt");
+			OutputStream chattext = new FileOutputStream("\\logs\\chatlog.txt");
 			ObjectOutputStream chatstream = new ObjectOutputStream(chattext);
 			String trte = "test";
 			chatstream.writeObject(trte);

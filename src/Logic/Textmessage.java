@@ -2,7 +2,7 @@ package Logic;
 
 import java.util.Date;
 
-public class Textnachricht {
+public class Textmessage {
 
 	private String Content;
 	private Date Datum;
