@@ -37,14 +37,20 @@ public abstract class ILogic extends Layer{
 			throw new RuntimeException("May only be executed once!");
 		gui = g;
 		gui.SetLogic(this);
+		GuiInit();
 	}
+
+	public abstract void GuiInit() ;
 
 	public final void SetNetwork(INetwork net) {
 		if (network != null)
 			throw new RuntimeException("May only be executed once!");
 		network = net;
 		network.SetLogic(this);
+		NetworkInit();
 	}
+
+	public abstract void NetworkInit() ;
 
 	public final void SetThread(Thread t) {
 		if (mainThread != null)
