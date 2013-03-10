@@ -9,6 +9,7 @@ public class gLogicMessageTester implements MessageTester<LogicGUIMessageType> {
 		
 	static {
 		paramDict = new Hashtable<>();
+		LogicGUIMessageType.paramDefs(paramDict);
 	}
 
 	@Override

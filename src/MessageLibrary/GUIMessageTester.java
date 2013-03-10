@@ -9,6 +9,7 @@ public class GUIMessageTester implements MessageTester<GUIMessageType> {
 	
 	static {
 		paramDict = new Hashtable<>();
+		GUIMessageType.paramDefs(paramDict);
 	}
 
 	@Override
