@@ -219,12 +219,13 @@ public class NetworkConnection extends INetwork {
 			Connect(host, port);
 		}
 			break;
-		case sendmessage:
+		case sendmessage: {
 			Stanza s = new Stanza("message");
 			Stanza b = new Stanza("body");
 			b.body = args[0];
 			s.body = b;
 			outputList.add(s);
+		}
 			break;
 		default:
 			break;
