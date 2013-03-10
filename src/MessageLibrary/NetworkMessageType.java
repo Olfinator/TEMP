@@ -1,5 +1,7 @@
 package MessageLibrary;
 
+import java.util.Dictionary;
+
 public enum NetworkMessageType {
 	ConnectResult
 	/*
@@ -10,4 +12,7 @@ public enum NetworkMessageType {
 	 * 		0xF1	Host not Found
 	 * 		0xFF	Error
 	 */
+	;
+	static void paramDef(Dictionary<NetworkMessageType, Class<?>[]> dict) {	
+	}
 }

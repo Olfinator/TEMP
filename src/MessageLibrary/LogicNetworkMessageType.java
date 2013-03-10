@@ -1,5 +1,7 @@
 package MessageLibrary;
 
+import java.util.Dictionary;
+
 public enum LogicNetworkMessageType {
 	Connect
 	/*
@@ -14,4 +16,7 @@ public enum LogicNetworkMessageType {
 	  * args:
 	  *  0 - Text : String
 	  */
+	;
+	static void paramDefs(Dictionary<LogicNetworkMessageType, Class<?>[]> dict) {
+	}
 }
