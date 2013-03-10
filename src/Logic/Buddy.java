@@ -16,5 +16,10 @@ public class Buddy {
 	public boolean getIsOnline(){
 		return isOnline;
 	}
+	
+	public Buddy(String _Name, String _jid){
+		Name = _Name;
+		jid = _jid;
+	}
 
 }

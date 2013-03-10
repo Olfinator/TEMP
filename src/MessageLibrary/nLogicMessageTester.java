@@ -9,6 +9,7 @@ public class nLogicMessageTester implements MessageTester<LogicNetworkMessageTyp
 	
 	static {
 		paramDict = new Hashtable<>();
+		LogicNetworkMessageType.paramDefs(paramDict);
 	}
 	
 	@Override

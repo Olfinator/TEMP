@@ -3,20 +3,24 @@
 package Logic;
 
 import java.util.ArrayList;
+import java.util.Hashtable;
 
 public class Buddylist {
 
-	private  ArrayList<Buddy> ListofBuddys;
+	private  Hashtable<String, Buddy> ListofBuddys;
 	
-	public void addBuddy(Buddy x){
-		ListofBuddys.add(x);
+	public void newBuddy(String Name, String jid){
+		Buddy b = new Buddy(Name, jid);
+		ListofBuddys.put(jid, b);
 	}
 	
-	public void deleteBuddy(Buddy x){
-		ListofBuddys.remove(x);
+	
+	
+	public void deleteBuddy(String jid){
+		ListofBuddys.remove(jid);
 	}
 	
-	public ArrayList<Buddy> getBuddylist(){
+	public Hashtable<String, Buddy> getBuddylist(){
 		return ListofBuddys;
 	}
 }

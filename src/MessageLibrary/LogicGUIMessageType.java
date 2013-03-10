@@ -1,5 +1,9 @@
 package MessageLibrary;
 
-public enum LogicGUIMessageType {
+import java.util.Dictionary;
 
+public enum LogicGUIMessageType {
+	;
+	static void paramDefs(Dictionary<LogicGUIMessageType, Class<?>[]> dict) {
+	}
 }

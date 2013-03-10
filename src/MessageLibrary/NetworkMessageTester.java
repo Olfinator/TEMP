@@ -9,6 +9,7 @@ public final class NetworkMessageTester implements MessageTester<NetworkMessageT
 
 	static {
 		paramDict = new Hashtable<>();
+		NetworkMessageType.paramDef(paramDict);
 	}
 
 	@Override

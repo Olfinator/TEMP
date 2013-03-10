@@ -1,5 +1,10 @@
 package MessageLibrary;
 
-public enum NetworkMessageType {
+import java.util.Dictionary;
 
+public enum NetworkMessageType {
+	;
+	static void paramDef(Dictionary<NetworkMessageType, Class<?>[]> dict) {
+		
+	}
 }

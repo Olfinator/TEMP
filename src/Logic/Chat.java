@@ -6,15 +6,16 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Hashtable;
 
 public class Chat {
 
 	public Chat(){
-		writeGespeichertenChat();
+		
 	}
 	private Buddy Buddy;
-	private ArrayList<Textnachricht> gespeicherterChat;
-	private ArrayList<Textnachricht> Tectnachrichten;
+	private ArrayList<Textmessage> savedChat;
+	private Hashtable<Buddy, Textmessage> Textmessages;
 	
 	public void writeGespeichertenChat(){
 		try{
@@ -26,6 +27,16 @@ public class Chat {
 		}catch(Exception exc){
 			exc.printStackTrace();
 		}
+	}
+	public void makeChat(Object text, Object person){
+		Textmessage message = new Textmessage();
+		message.setContent((String)text);
+		Textmessages.put((Buddy)person,message);
+		
+	}
+	
+	public Textmessage getChat(Buddy buddy){
+		return Textmessages.get(buddy);
 	}
 public void main(String[] args){
 	Chat x = new Chat();

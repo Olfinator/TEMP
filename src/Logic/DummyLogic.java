@@ -27,4 +27,16 @@ public class DummyLogic extends ILogic{
 	public void OnClose() {
 
 	}
+
+	@Override
+	public void GuiInit() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void NetworkInit() {
+		// TODO Auto-generated method stub
+		
+	}
 }
